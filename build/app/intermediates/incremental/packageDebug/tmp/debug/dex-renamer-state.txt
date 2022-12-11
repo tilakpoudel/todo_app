@@ -1,0 +1,4 @@
+#Sun Dec 11 17:08:40 NPT 2022
+base.0=/home/tilak/projects/tilak/flutter/todo_app/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
