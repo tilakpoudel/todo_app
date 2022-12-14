@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/util/my_button.dart';
 
 class DialogBox extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
   final VoidCallback onSave;
   final VoidCallback onCancel;
 
@@ -34,21 +34,22 @@ class DialogBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // save
-                MyButton(
-                    text: "Save",
-                    color: Theme.of(context).primaryColor,
-                    onPressed: onSave),
-
-                const SizedBox(
-                  width: 10,
-                ),
-
                 //cancel
                 MyButton(
                   text: "Cancel",
                   color: Colors.red,
                   onPressed: onCancel,
+                ),
+
+                const SizedBox(
+                  width: 10,
+                ),
+
+                // save
+                MyButton(
+                  text: "Save",
+                  color: Colors.green.shade300,
+                  onPressed: onSave,
                 ),
               ],
             )

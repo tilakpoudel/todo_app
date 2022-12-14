@@ -6,6 +6,7 @@ class ToDoTile extends StatelessWidget {
   final bool taskCompleted;
   final Function(bool?)? onChanged;
   final Function(BuildContext)? deleteFunction;
+  final Function(BuildContext)? editFunction;
 
   const ToDoTile({
     super.key,
@@ -13,6 +14,7 @@ class ToDoTile extends StatelessWidget {
     required this.taskCompleted,
     required this.onChanged,
     required this.deleteFunction,
+    required this.editFunction,
   });
 
   @override
@@ -20,14 +22,26 @@ class ToDoTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 25),
       child: Slidable(
-        endActionPane: ActionPane(motion: const StretchMotion(), children: [
-          SlidableAction(
-            onPressed: deleteFunction,
-            icon: Icons.delete,
-            backgroundColor: Colors.red.shade300,
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ]),
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          children: [
+            SlidableAction(
+              onPressed: editFunction,
+              backgroundColor: Colors.green.shade300,
+              foregroundColor: Colors.white,
+              icon: Icons.edit,
+              label: 'Edit',
+              borderRadius: BorderRadius.circular(12),
+            ),
+            SlidableAction(
+              onPressed: deleteFunction,
+              icon: Icons.delete,
+              backgroundColor: Colors.red.shade300,
+              borderRadius: BorderRadius.circular(12),
+              label: 'Delete',
+            ),
+          ],
+        ),
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(

@@ -67,6 +67,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // edi a task
+  editTask(int index) {
+    _controller.text =  db.todoList[index][0];
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
+
+  updateTask (int index) {
+    setState(() {
+      db.todoList[index][0] = _controller.text;
+      _controller.clear();
+    });
+
+    Navigator.of(context).pop();
+    db.updateDataBase();
+  }
+
   // delete task
   void deleteTask (int index) {
     setState(() {
@@ -74,6 +100,7 @@ class _HomePageState extends State<HomePage> {
     });
     db.updateDataBase();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +123,7 @@ class _HomePageState extends State<HomePage> {
             taskCompleted: db.todoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
             deleteFunction: (context) => deleteTask(index),
+            editFunction: (context) => editTask(index),
           );
         }),
       ),
