@@ -12,13 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   // reference the hive box
   final _myBox = Hive.box('mybox');
   ToDoDataBase db = ToDoDataBase();
 
   @override
-  void initState () {
+  void initState() {
     // if this is the 1st time opening of the app then create default data
     if (_myBox.get("TODOLIST") == null) {
       db.createInitialData();
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
       // there already exists data
       db.loadData();
     }
-    
+
     super.initState();
   }
 
@@ -69,7 +68,7 @@ class _HomePageState extends State<HomePage> {
 
   // edi a task
   editTask(int index) {
-    _controller.text =  db.todoList[index][0];
+    _controller.text = db.todoList[index][0];
 
     showDialog(
       context: context,
@@ -83,7 +82,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  updateTask (int index) {
+  updateTask(int index) {
     setState(() {
       db.todoList[index][0] = _controller.text;
       _controller.clear();
@@ -94,7 +93,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // delete task
-  void deleteTask (int index) {
+  void deleteTask(int index) {
     setState(() {
       db.todoList.removeAt(index);
     });
@@ -115,17 +114,72 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.yellow[200],
-      body: ListView.builder(
-        itemCount: db.todoList.length,
-        itemBuilder: ((context, index) {
-          return ToDoTile(
-            taskName: db.todoList[index][0],
-            taskCompleted: db.todoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
-            editFunction: (context) => editTask(index),
-          );
-        }),
+      body: Container(
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: [
+            searchBox(),
+            Expanded(
+              child: ListView(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 20,
+                    ),
+                    child: const Text(
+                      'All ToDos',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            // ListView.builder(
+            //   itemCount: db.todoList.length,
+            //   itemBuilder: ((context, index) {
+            //     return ToDoTile(
+            //       taskName: db.todoList[index][0],
+            //       taskCompleted: db.todoList[index][1],
+            //       onChanged: (value) => checkBoxChanged(value, index),
+            //       deleteFunction: (context) => deleteTask(index),
+            //       editFunction: (context) => editTask(index),
+            //     );
+            //   }),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget searchBox() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        color: Colors.yellow[100],
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const TextField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(0),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.brown,
+            size: 20,
+          ),
+          prefixIconConstraints: BoxConstraints(
+            maxHeight: 20,
+            maxWidth: 25,
+          ),
+          border: InputBorder.none,
+          hintText: 'Search',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
       ),
     );
   }
